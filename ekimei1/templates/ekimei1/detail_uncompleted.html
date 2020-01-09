@@ -1,0 +1,138 @@
+{% extends 'ekimei1/base.html' %}
+{% load widget_tweaks %}
+{% load tags %}
+
+{% block title %}{{ movie }} - 詳細{% endblock %}
+
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'ekimei1/detail.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<p><a href="{% url 'ekimei1:list' %}">リストへ戻る</a></p>
+<div class="main-container">
+	<div class="movie-detail">
+		<div class="youtube-container">
+			<div class="youtube">
+				<iframe src="https://www.youtube.com/embed/{{ movie.main_id }}"  frameborder='0' gesture='media' allowfullscreen></iframe>
+			</div>
+		</div>
+		<div class="detail-original">
+			<a href="https://www.youtube.com/watch?v={{ movie.youtube_id }}" target="_blank" class="movie-title-link"><h2 class="movie-title">{{ movie.title }}</h2></a>
+			<div class="movie-channel">{{ movie.channel }}</div>
+			<div class="detail-addition">
+				{% if movie.song.all %}
+				<h3 class="detail-song-header">使用楽曲</h3>
+					{% for song in movie.song.all %}
+					<p><a href="{% url 'ekimei1:song_list' song.id %}">{{ song }}</a>
+						{% if song.artist %}
+							{% for artist in song.artist.all %}
+							<a href=""> - {{ artist }}</a>
+							{% endfor %}
+						{% endif %}
+					</p>
+					{% endfor %}
+				{% endif %}
+				{% if movie.vocal.all %}
+				<h3 class="detail-vocal-header">使用ボーカル</h3>
+					{% for vocal in movie.vocal.all %}
+					<p><a href="{% url 'ekimei1:vocal_list' vocal.id %}">{{ vocal }}</a></p>
+					{% endfor %}
+				{% endif %}
+			</div>
+			<h3 class="movie-published-header">投稿日時</h3>
+			<table class="movie-published">
+				<tbody>
+					<tr>
+						<td>世界標準時</td>{% load tz %}
+						<td class="movie-published-iso">{{ movie.published_at|utc|date:"Y年Nd日 H:i:s" }}</td>
+					</tr>
+					<tr>
+						<td>日本時間</td>
+						<td class="movie-published-jpn">{{ movie.published_at|date:"Y年Nd日 H:i:s" }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="movie-statistics">
+				<div class="movie-statistics-item">
+					<div class="movie-statistics-num">
+					{% if n_view == 0 %}
+						0
+					{% else %}
+						{{ movie.n_view }}
+					{% endif %}</div>
+					<div class="movie-statistics-name">再生回数</div>
+				</div>
+				<div class="movie-statistics-item">
+					<div class="movie-statistics-num">
+					{% if n_like == 0 %}
+						0
+					{% else %}
+						{{ movie.n_like }}
+					{% endif %}</div>
+					<div class="movie-statistics-name">高評価数</div>
+				</div>
+				<div class="movie-statistics-item">
+					<div class="movie-statistics-num">
+					{% if n_dislike == 0 %}
+						0
+					{% else %}
+						{{ movie.n_dislike }}
+					{% endif %}
+					</div>
+					<div class="movie-statistics-name">低評価数</div>
+				</div>
+				<div class="movie-statistics-item">
+					<div class="movie-statistics-num">
+					{% if n_comment == 0 %}
+						0
+					{% else %}
+						{{ movie.n_comment }}
+					{% endif %}</div>
+					<div class="movie-statistics-name">コメント数</div>
+				</div>
+			</div>
+			<div class="movie-description-container">
+				<p id="movie-description"></p>
+			</div>
+		</div>
+		<div class="related-movie">
+		</div>
+	</div>
+	<div class="movie-station-list">
+		{% for stationofpart in stations %}
+			{{ stationofpart.0.0.movie_part.part_name_short }}
+			{% for participant in stationofpart.0.0.movie_part.participant.all %}
+				{{ participant }}
+			{% endfor %}
+			{{ stationofpart.0.0.movie_part.start_time }}
+			{{ stationofpart.0.0.movie_part.song_name }}
+			{% for song in stationofpart.0.0.movie_part.song.all %}
+				<a href="{% url 'ekimei1:song_list' song.id %}">{{ song }}</a>
+			{% endfor %}
+			{% for vocal in stationofpart.0.0.movie_part.vocal.all %}
+				<a href="{% url 'ekimei1:vocal_list' vocal.id %}">{{ vocal }}</a>
+			{% endfor %}
+			{{ stationofpart.0.0.movie_part.explanation }}
+				{% for stationofline in stationofpart %}
+				{% if stationofpart.0.0.movie_part.category.name != "駅名替え歌" %}
+				<h4 class="movie-line-name">{{ stationofline.0.station_cd.line_cd }}</h4>
+				{% endif %}
+					<ul>
+					{% for station in stationofline %}
+						<li class="station-name">
+							<a href="{% url 'ekimei1:station_list' station.station_cd.station_cd %}">{{ station }}
+							{% if stationofpart.0.0.movie_part.category.name == "駅名替え歌" %}
+							 - {{ station.station_cd.line_cd }}
+							 {% endif %}
+							</a>
+						</li>
+					{% endfor %}
+					</ul>
+				{% endfor %}
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

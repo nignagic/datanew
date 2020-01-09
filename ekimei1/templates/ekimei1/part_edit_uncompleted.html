@@ -1,0 +1,76 @@
+{% extends 'ekimei1/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}パート編集 - {{ movie }}{% endblock %}
+
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<h2>パート情報編集</h2>
+<form action="" method="post" enctype="multipart/form-data">
+{{ form.as_p }}
+<div class="youtube-frame">
+	<div class="youtube-container">
+		<div class="youtube">
+			<iframe src="https://www.youtube.com/embed/{{ movie.main_id }}"  frameborder='0' gesture='media' allowfullscreen></iframe>
+		</div>
+	</div>
+</div>
+<form name="part_add" method="post">
+	<h3>パート</h3>
+	<div class="part-list">
+		{{ formset.management_form }}
+		{% for form in formset %}
+		<div class="part-form">
+			{{ form.non_field_errors }}
+			{{ form.id }}
+			{{ form.part_num }}
+			{{ form.part_name_short }}
+			{{ form.part_name }}
+			{{ form.movie }}
+			{{ form.participant }}
+			{{ form.category }}
+			{{ form.start_time }}
+			{{ form.song }}
+			{{ form.song_name }}
+			{{ form.vocal }}
+			{{ form.explanation }}
+		</div>
+		{% endfor %}
+	</div>
+	<input type="button" class="part-add" value="パート追加">
+	{% csrf_token %}
+	<button type="button" onclick="submit();" class="btn btn-primary">送信</button>
+</form>
+</form>
+{% endblock %}
+
+{% block extrajs %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+	$(function() {
+		var totalManageElement = $('input#id_part_set-TOTAL_FORMS');
+		var initialManageElement = $('input#id_part_set-INITIAL_FORMS');
+		initialManageElement.val(0);
+
+		$(document).on('click', '.part-add', function() {
+			part_add();
+		})
+
+		function part_add() {
+			var currentFileCount = 0;
+			$('.part-form').each(function() {
+				currentFileCount++;
+			})
+			var element = "a";
+			$('.part-list').append(element);
+			currentFileCount += 1;
+			totalManageElement.attr('value', currentFileCount);
+		}
+	})
+</script>
+{% endblock %}
