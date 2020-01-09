@@ -5,7 +5,7 @@ from . import serializer
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, render, redirect
 
-from .models import Prefecture, Line, Station, Category, Creator, YoutubeChannel, Name, Artist, Song, Vocal, Movie, Part, StationInMovie
+from .models import Prefecture, Line, Station, Station2, Category, Creator, YoutubeChannel, Name, Artist, Song, Vocal, Movie, Part, StationInMovie
 from . import forms
 
 import csv
@@ -206,28 +206,35 @@ def station_edit(request, main_id, part_num):
 
 def uploadStation(request):
 	if 'csv' in request.FILES:
+		stations = []
 		form_data = TextIOWrapper(request.FILES['csv'].file, encoding='utf-8')
 		csv_file = csv.reader(form_data)
 		for line in csv_file:
-			station, created = Station.objects.get_or_create(station_cd=line[0])
-			station.station_cd = line[0]
-			station.station_g_cd = line[1]
-			station.station_name = line[2]
-			station.station_name_k = line[3]
-			station.station_name_r = line[4]
-			station.line_cd = Line.objects.get(line_cd=line[5])
-			station.pref_cd = Prefecture.objects.get(pref_cd=line[6])
-			station.post = line[7]
-			station.add = line[8]
-			station.lon = line[9]
-			station.lat = line[10]
+			station_cd = line[0]
+			station_g_cd = line[1]
+			station_name = line[2]
+			station_name_k = line[3]
+			station_name_r = line[4]
+			line_cd = Line.objects.get(line_cd=line[5])
+			pref_cd = Prefecture.objects.get(pref_cd=line[6])
+			post = line[7]
+			add = line[8]
+			lon = line[9]
+			lat = line[10]
 			if line[11] != '':
-				station.open_ymd = line[11]
+				open_ymd = line[11]
+			else:
+				open_ymd = None;
 			if line[12] != '':
-				station.close_ymd = line[12]
-			station.e_status = line[13]
-			station.e_sort = line[14]
-			station.save()
+				close_ymd = line[12]
+			else:
+				close_ymd = None;
+			e_status = line[13]
+			e_sort = line[14]
+
+			station = Station(station_cd=station_cd, station_g_cd=station_g_cd, station_name=station_name, station_name_k=station_name_k, station_name_r=station_name_r, line_cd=line_cd, pref_cd=pref_cd, post=post, add=add, lon=lon, lat=lat, open_ymd=open_ymd, close_ymd=close_ymd, e_status=e_status, e_sort=e_sort)
+			stations.append(station)
+		Station.objects.bulk_create(stations)
 
 		return render(request, 'ekimei1/upload.html')
 
@@ -236,24 +243,26 @@ def uploadStation(request):
 
 def uploadLine(request):
 	if 'csv' in request.FILES:
+		lines = []
 		form_data = TextIOWrapper(request.FILES['csv'].file, encoding='utf-8')
 		csv_file = csv.reader(form_data)
 		for line in csv_file:
-			l, created = Line.objects.get_or_create(line_cd=line[0])
-			l.line_cd = line[0]
-			l.company_cd = line[1]
-			l.line_name = line[2]
-			l.line_name_k = line[3]
-			l.line_name_h = line[4]
-			l.line_color_c = line[5]
-			l.line_color_t = line[6]
-			l.line_type = line[7]
-			l.lon = line[8]
-			l.lat = line[9]
-			l.zoom = line[10]
-			l.e_status = line[11]
-			l.e_sort = line[12]
-			l.save()
+			line_cd = line[0]
+			company_cd = line[1]
+			line_name = line[2]
+			line_name_k = line[3]
+			line_name_h = line[4]
+			line_color_c = line[5]
+			line_color_t = line[6]
+			line_type = line[7]
+			lon = line[8]
+			lat = line[9]
+			zoom = line[10]
+			e_status = line[11]
+			e_sort = line[12]
+			l = Line(line_cd=line_cd, company_cd=company_cd, line_name=line_name, line_name_k=line_name_k, line_name_h=line_name_h, line_color_c=line_color_c, line_color_t=line_color_t, line_type=line_type, lon=lon, lat=lat, zoom=zoom, e_status=e_status, e_sort=e_sort)
+			lines.append(l)
+		Line.objects.bulk_create(lines)
 
 		return render(request, 'ekimei1/upload.html')
 
@@ -262,13 +271,15 @@ def uploadLine(request):
 
 def uploadPref(request):
 	if 'csv' in request.FILES:
+		prefectures = []
 		form_data = TextIOWrapper(request.FILES['csv'].file, encoding='utf-8')
 		csv_file = csv.reader(form_data)
 		for line in csv_file:
-			pref, created = Prefecture.objects.get_or_create(pref_cd=line[0])
-			pref.pref_cd = line[0]
-			pref.pref_name = line[1]
-			pref.save()
+			pref_cd = line[0]
+			pref_name = line[1]
+			pref = Prefecture(pref_cd=pref_cd, pref_name=pref_name)
+			prefectures.append(pref)
+		Prefecture.objects.bulk_create(prefectures)
 
 		return render(request, 'ekimei1/upload.html')
 	else:

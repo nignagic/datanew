@@ -117,6 +117,31 @@ class Station(models.Model):
 	def __str__(self):
 		return self.station_name
 
+class Station2(models.Model):
+	station_cd = models.IntegerField('駅コード', default=0, unique=True)
+	station_g_cd = models.IntegerField('駅グループコード', default=0)
+	station_name = models.CharField('駅名', max_length=200)
+	station_name_k = models.CharField('駅名(カナ)', max_length=200, null=True, blank=True)
+	station_name_r = models.CharField('駅名(ローマ字)', max_length=200, null=True, blank=True)
+	line_cd = models.ForeignKey(Line, to_field='line_cd', null=True, blank=True, on_delete=models.CASCADE, verbose_name='路線')
+	pref_cd = models.ForeignKey(Prefecture, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='都道府県')
+	post = models.CharField('駅郵便番号', max_length=200, null=True, blank=True)
+	add = models.CharField('住所', max_length=200, null=True, blank=True)
+	lon = models.CharField('経度', max_length=200, null=True, blank=True)
+	lat = models.CharField('緯度', max_length=200, null=True, blank=True)
+	open_ymd = models.DateField('開業年月日', max_length=200, null=True, blank=True)
+	close_ymd = models.DateField('廃止年月日', max_length=200, null=True, blank=True)
+
+	STATUS = (
+		(0, '運用中'),
+		(1, '運用前'),
+		(2, '廃止')
+	)
+	e_status = models.IntegerField('状態', choices=STATUS, default=0)
+	e_sort = models.IntegerField('並び順', default=0)
+	def __str__(self):
+		return self.station_name
+
 class Category(models.Model):
 	name = models.CharField(max_length=200)
 	def __str__(self):
