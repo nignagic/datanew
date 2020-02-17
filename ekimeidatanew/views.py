@@ -339,3 +339,18 @@ class LineServiceListbyCompanyView(generic.ListView):
 			'linebycompany': linebycompany
 		}
 		return context
+
+class StationSearchView(generic.ListView):
+	model = StationService
+	template_name = 'ekimeidatanew/stationsearch.html'
+
+	def get_context_data(self, **kwargs):
+		q_word = self.request.GET.get('q')
+
+		if q_word:
+			stations = StationService.objects.filter(station_name__icontains=q_word).order_by('line_service_code')
+		context = {
+			'word': q_word,
+			'stations': stations
+		}
+		return context

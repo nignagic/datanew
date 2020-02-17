@@ -14,6 +14,7 @@ urlpatterns = [
 	path('line/<int:line_code>/', views.StationListbyLineView.as_view(), name='stationlistbylineview'),
 	path('lineservice/<slug:line_service_code>/', views.StationServiceListbyLineView.as_view(), name='stationservicelistbylineview'),
 	path('linelist/', views.LineServiceListbyCompanyView.as_view(), name='lineservicelistbycompanyview'),
+	path('stationsearch/', views.StationSearchView.as_view(), name='stationsearchview'),
 	path('upload/', views.uploadStation, name='uploadStation'),
 	path('uploadline/', views.uploadLine, name='uploadLine'),
 	path('uploadcompany/', views.uploadCompany, name='uploadCompany'),
