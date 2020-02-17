@@ -83,14 +83,14 @@ class LineService(models.Model):
 	is_service = models.CharField('運行系統', max_length=200, null=True, blank=True)
 	def __str__(self):
 		name = ""
-		# if self.is_company_name:
-		# 	name += self.company_name_simple + " "
-		# name += self.line_service_name
-		# if self.line_service_name_sub:
-		# 	name += "(" + self.line_service_name_sub + ")"
-		name += self.company_name_simple + " " + self.line_service_name_formal
-		if self.line_service_name_formal_sub:
-			name += "(" + self.line_service_name_formal_sub + ")"
+		if self.is_company_name:
+			name += self.company_name_simple + " "
+		name += self.line_service_name
+		if self.line_service_name_sub:
+			name += "(" + self.line_service_name_sub + ")"
+		# name += self.company_name_simple + " " + self.line_service_name_formal
+		# if self.line_service_name_formal_sub:
+		# 	name += "(" + self.line_service_name_formal_sub + ")"
 		if self.is_formal and (self.is_service==""):
 			name += "[正式区間]"
 		if (self.is_formal=="") and self.is_service:
