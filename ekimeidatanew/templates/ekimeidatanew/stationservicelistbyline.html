@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{% static 'ekimeidatanew/stationservicelistbyline.css' %}">
 <div class="main-content">
 	<div class="line-name">{{ lineservice }}</div>
+	<a href="{% url 'ekimeidatanew:lineservicelistbycompanyview' %}">路線一覧へ戻る</a>
 	<ul class="line-ul">
 		{% for stationservice, group_stationservices in transfers.items %}
 		<li class="line-li">

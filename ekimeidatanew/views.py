@@ -304,7 +304,7 @@ class StationServiceListbyLineView(generic.ListView):
 		context = super().get_context_data(**kwargs)
 
 		lineservice = LineService.objects.get(line_service_code=self.kwargs['line_service_code'])
-		stationservices = StationService.objects.filter(line_service_code=self.kwargs['line_service_code']).order_by('sort_by_line_service')
+		stationservices = StationService.objects.filter(line_service_code=self.kwargs['line_service_code']).order_by('sort_by_line_service').exclude(station_code__e_status_old=2)
 		transfers = {}
 		stationserviceprev = 0
 		for stationservice in stationservices:
@@ -348,7 +348,7 @@ class StationSearchView(generic.ListView):
 		q_word = self.request.GET.get('q')
 
 		if q_word:
-			stations = StationService.objects.filter(station_name__icontains=q_word).order_by('line_service_code')
+			stations = StationService.objects.filter(station_name__icontains=q_word).order_by('line_service_code').exclude(station_code__e_status_old=2)
 		context = {
 			'word': q_word,
 			'stations': stations

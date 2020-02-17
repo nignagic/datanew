@@ -11,6 +11,7 @@
 		<input type="text" name="q" value="{{ word }}">
 		<button type="submit">検索</button>
 	</form>
+	<a href="{% url 'ekimeidatanew:lineservicelistbycompanyview' %}">路線一覧へ戻る</a>
 	<h2>検索結果 - {{ word }}</h2>
 	<table>
 		{% if stations %}
