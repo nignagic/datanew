@@ -29,6 +29,8 @@ DEBUG = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com']
 
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 
 # Application definition
 
@@ -40,10 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ekimei1',
+    'ekimeidatanew',
     'widget_tweaks',
     'rest_framework',
     'debug_toolbar',
     'social_django',
+    'django_static_md5url',
 ]
 
 MIDDLEWARE = [

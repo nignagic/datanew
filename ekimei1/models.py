@@ -90,7 +90,7 @@ class Line(models.Model):
 	e_sort = models.IntegerField(default=0)
 	pref_cds = models.ManyToManyField(Prefecture, blank=True)
 	def __str__(self):
-		return self.line_name
+		return self.line_name_h
 
 class Station(models.Model):
 	station_cd = models.IntegerField('駅コード', default=0, unique=True)

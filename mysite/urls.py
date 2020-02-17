@@ -20,4 +20,5 @@ from django.contrib.auth import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ekimei1/', include('ekimei1.urls'), name='ekimei1'),
+    path('ekimeidatanew/', include('ekimeidatanew.urls'), name='ekimeidatanew'),
 ]

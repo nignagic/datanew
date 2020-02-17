@@ -1,0 +1,28 @@
+{% extends 'ekimeidatanew/base.html' %}
+
+{% block title %}{{ lineservice }}{% endblock %}
+
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'ekimeidatanew/stationservicelistbyline.css' %}">
+<div class="main-content">
+	<div class="line-name">{{ lineservice }}</div>
+	<ul class="line-ul">
+		{% for stationservice, group_stationservices in transfers.items %}
+		<li class="line-li">
+			<div class="station-name">{{ stationservice }}</div>
+			<ul class="station-ul">
+			{% for group_stationservice, transfers in group_stationservices.items %}
+				<li class="station-li"><!-- <a href="{% url 'ekimeidatanew:stationlistbylineview' group_stationservice.line_code.line_code %}"> -->{{ group_stationservice.line_code }}<!-- </a> --></li>
+				<ul class="service-ul">
+				{% for transfer in transfers %}
+					<li class="service-li">{{ transfer }} <a href="{% url 'ekimeidatanew:stationservicelistbylineview' transfer.line_service_code.line_service_code %}">{{ transfer.line_service_code }}</a></li>
+				{% endfor %}
+				</ul>
+			{% endfor %}
+			</ul>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}
