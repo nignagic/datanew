@@ -71,20 +71,22 @@ class Station(models.Model):
 class LineService(models.Model):
 	line_service_code = models.CharField('路線コード(運行系統)', max_length=10, unique=True)
 	line_service_name_formal = models.CharField('路線名（鉄道要覧）', max_length=200, null=True, blank=True)
+	line_service_name_formal_sub = models.CharField('路線区別名（鉄道要覧）', max_length=200, null=True, blank=True)
 	line_code = models.ManyToManyField(Line, blank=True, verbose_name='路線コード(正式)')
 	company_name_simple = models.CharField('事業者名(簡易)', max_length=200, null=True, blank=True)
+	is_company_name = models.CharField('語頭会社名', max_length=200, null=True, blank=True)
 	line_service_name = models.CharField('路線名', max_length=200, null=True, blank=True)
 	line_service_name_sub = models.CharField('路線区別名', max_length=200, null=True, blank=True)
 	company_code = models.ForeignKey(Company, to_field='company_code', null=True, blank=True, on_delete=models.CASCADE, verbose_name='事業者コード')
 	sort_by_company = models.IntegerField('事業者ごとの並び順', default=0)
 	is_formal = models.CharField('正式区間', max_length=200, null=True, blank=True)
-	is_service = models.CharField('正式区間', max_length=200, null=True, blank=True)
+	is_service = models.CharField('運行系統', max_length=200, null=True, blank=True)
 	def __str__(self):
 		name = ""
-		if self.company_name_simple:
-			name += self.company_name_simple + " "
-		name += self.line_service_name
-		if self.line_service_name_sub:
+		# if self.is_company_name:
+		name += self.company_name_simple + " "
+		name += self.line_service_name_formal
+		if self.line_service_name_formal_sub:
 			name += "(" + self.line_service_name_sub + ")"
 		if self.is_formal and (self.is_service==""):
 			name += "[正式区間]"

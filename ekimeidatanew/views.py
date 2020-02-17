@@ -207,19 +207,23 @@ def uploadLineService(request):
 			if i != 0:
 				line_service_code = line[0]
 				line_service_name_formal = line[1]
+				line_service_name_formal_sub = line[2]
 
-				company_name_simple = line[3]
-				line_service_name = line[4]
-				line_service_name_sub = line[5]
-				company_code = Company.objects.get(company_code=line[6])
-				sort_by_company = line[7]
-				is_formal = line[8]
-				is_service = line[9]
+				company_name_simple = line[4]
+				is_company_name = line[5]
+				line_service_name = line[6]
+				line_service_name_sub = line[7]
+				company_code = Company.objects.get(company_code=line[8])
+				sort_by_company = line[9]
+				is_formal = line[10]
+				is_service = line[11]
 				lineservice = LineService(
 					line_service_code=line_service_code,
 					line_service_name_formal=line_service_name_formal,
+					line_service_name_formal_sub=line_service_name_formal_sub,
 					
 					company_name_simple=company_name_simple,
+					is_company_name=is_company_name,
 					line_service_name=line_service_name,
 					line_service_name_sub=line_service_name_sub,
 					company_code=company_code,
