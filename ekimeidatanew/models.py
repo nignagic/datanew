@@ -103,11 +103,19 @@ class StationService(models.Model):
 	station_name = models.CharField('駅名', max_length=200, null=True, blank=True)
 	line_service_name = models.CharField('路線名(運行系統)', max_length=200, null=True, blank=True)
 	line_service_code = models.ForeignKey(LineService, to_field='line_service_code', null=True, blank=True, on_delete=models.CASCADE, verbose_name='路線コード(運行系統)')
+	numbering_head = models.CharField('ナンバリング接頭辞', max_length=200, null=True, blank=True)
 	numbering_symbol = models.CharField('路線記号', max_length=200, null=True, blank=True)
+	numbering_middle = models.CharField('ナンバリングハイフン', max_length=200, null=True, blank=True)
 	numbering_number = models.CharField('駅番号', max_length=200, null=True, blank=True)
 	sort_by_line_service = models.IntegerField('路線(運行系統)ごとの並び順', null=True, blank=True, default=0)
 	def __str__(self):
-		name = self.station_name
+		numbering = self.numbering_head + self.numbering_symbol
+		if self.numbering_middle == "space":
+			mid = " "
+		else:
+			mid = self.numbering_middle
+		numbering += mid + self.numbering_number + " "
+		name = numbering + self.station_name
 		if self.station_code.e_status_old == 2:
 			name += "[廃]"
 		return name

@@ -173,9 +173,11 @@ def uploadStationService(request):
 				station_name = line[2]
 				line_service_name = line[3]
 				line_service_code = LineService.objects.get(line_service_code=line[4])
-				numbering_symbol = line[5]
-				numbering_number = line[6]
-				sort_by_line_service = line[7]
+				numbering_head = line[5]
+				numbering_symbol = line[6]
+				numbering_middle = line[7]
+				numbering_number = line[8]
+				sort_by_line_service = line[9]
 
 				stationservice = StationService(
 					station_service_code=station_service_code,
@@ -183,7 +185,9 @@ def uploadStationService(request):
 					station_name=station_name,
 					line_service_name=line_service_name,
 					line_service_code=line_service_code,
+					numbering_head=numbering_head,
 					numbering_symbol=numbering_symbol,
+					numbering_middle=numbering_middle,
 					numbering_number=numbering_number,
 					sort_by_line_service=sort_by_line_service
 					)
@@ -349,8 +353,10 @@ class StationSearchView(generic.ListView):
 
 		if q_word:
 			stations = StationService.objects.filter(station_name__icontains=q_word).order_by('line_service_code').exclude(station_code__e_status_old=2)
+		count = stations.count()
 		context = {
 			'word': q_word,
-			'stations': stations
+			'stations': stations,
+			'count': count
 		}
 		return context
