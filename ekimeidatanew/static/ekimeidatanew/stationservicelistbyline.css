@@ -52,21 +52,30 @@ ul, li {
 	padding: 0;
 }
 
-.station-name {
+.station-info {
 	padding: 8px 20px;
 	color: #fff;
+	display: flex;
+	justify-content: space-between;
 	position: relative;
 }
 
-.line-li:nth-child(even) .station-name {
+.station-name {
+}
+
+.station-numbering {
+	text-align: right;
+}
+
+.line-li:nth-child(even) .station-info {
 	background-color: #06262b;
 }
 
-.line-li:nth-child(odd) .station-name {
+.line-li:nth-child(odd) .station-info {
 	background-color: #001618;
 }
 
-.station-name:after {
+.station-info:after {
 	display: block;
 	content: '';
 	position: absolute;

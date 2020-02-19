@@ -11,7 +11,10 @@
 	<ul class="line-ul">
 		{% for stationservice, group_stationservices in transfers.items %}
 		<li class="line-li">
-			<div class="station-name">{{ stationservice }}</div>
+			<div class="station-info">
+				<div class="station-name">{{ stationservice }}</div>
+				<div class="station-numbering">{{ stationservice.get_numbering }}</div>
+			</div>
 			<ul class="station-ul">
 			{% for group_stationservice, transfers in group_stationservices.items %}
 				<li class="station-li"><!-- <a href="{% url 'ekimeidatanew:stationlistbylineview' group_stationservice.line_code.line_code %}"> -->{{ group_stationservice.line_code }}<!-- </a> --></li>

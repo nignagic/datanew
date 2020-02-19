@@ -108,14 +108,17 @@ class StationService(models.Model):
 	numbering_middle = models.CharField('ナンバリングハイフン', max_length=200, null=True, blank=True)
 	numbering_number = models.CharField('駅番号', max_length=200, null=True, blank=True)
 	sort_by_line_service = models.IntegerField('路線(運行系統)ごとの並び順', null=True, blank=True, default=0)
-	def __str__(self):
+	def get_numbering(self):
 		numbering = self.numbering_head + self.numbering_symbol
 		if self.numbering_middle == "space":
 			mid = " "
 		else:
 			mid = self.numbering_middle
 		numbering += mid + self.numbering_number + " "
-		name = numbering + self.station_name
+		return numbering
+
+	def __str__(self):
+		name = self.station_name
 		if self.station_code.e_status_old == 2:
 			name += "[廃]"
 		return name
