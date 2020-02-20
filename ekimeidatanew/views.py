@@ -141,7 +141,10 @@ def uploadCompany(request):
 				company_name = line[3]
 				company_name_short = line[4]
 				company_name_short_2 = line[5]
-				company_name_kana =line[6]
+				company_name_kana = line[6]
+				company_color = line[7]
+				area_code = line[8]
+				sort_by_area = line[9]
 				company = Company(
 					railway_type_name=railway_type_name,
 					railway_type_code=railway_type_code,
@@ -149,7 +152,10 @@ def uploadCompany(request):
 					company_name=company_name,
 					company_name_short=company_name_short,
 					company_name_short_2=company_name_short_2,
-					company_name_kana=company_name_kana)
+					company_name_kana=company_name_kana,
+					company_color=company_color,
+					area_code=area_code,
+					sort_by_area=sort_by_area)
 				companies.append(company)
 			else:
 				i+=1
@@ -178,6 +184,7 @@ def uploadStationService(request):
 				numbering_middle = line[7]
 				numbering_number = line[8]
 				sort_by_line_service = line[9]
+				station_color = line[10]
 
 				stationservice = StationService(
 					station_service_code=station_service_code,
@@ -189,7 +196,8 @@ def uploadStationService(request):
 					numbering_symbol=numbering_symbol,
 					numbering_middle=numbering_middle,
 					numbering_number=numbering_number,
-					sort_by_line_service=sort_by_line_service
+					sort_by_line_service=sort_by_line_service,
+					station_color=station_color
 					)
 				stationservices.append(stationservice)
 			else:
@@ -221,6 +229,7 @@ def uploadLineService(request):
 				sort_by_company = line[9]
 				is_formal = line[10]
 				is_service = line[11]
+				line_color = line[12]
 				lineservice = LineService(
 					line_service_code=line_service_code,
 					line_service_name_formal=line_service_name_formal,
@@ -233,7 +242,8 @@ def uploadLineService(request):
 					company_code=company_code,
 					sort_by_company=sort_by_company,
 					is_formal=is_formal,
-					is_service=is_service)
+					is_service=is_service,
+					line_color=line_color)
 				lineservices.append(lineservice)
 			else:
 				i+=1
@@ -308,7 +318,7 @@ class StationServiceListbyLineView(generic.ListView):
 		context = super().get_context_data(**kwargs)
 
 		lineservice = LineService.objects.get(line_service_code=self.kwargs['line_service_code'])
-		stationservices = StationService.objects.filter(line_service_code=self.kwargs['line_service_code']).order_by('sort_by_line_service').exclude(station_code__e_status_old=2)
+		stationservices = StationService.objects.filter(line_service_code=self.kwargs['line_service_code']).filter(station_code__e_status_old=0).order_by('sort_by_line_service')
 		transfers = {}
 		stationserviceprev = 0
 		for stationservice in stationservices:
@@ -316,7 +326,7 @@ class StationServiceListbyLineView(generic.ListView):
 				transfers[stationservice] = {}
 				transferstations = Station.objects.filter(station_group_code=stationservice.station_code.station_group_code)
 				for transferstation in transferstations:
-					transfers[stationservice][transferstation] = StationService.objects.filter(station_code=transferstation.station_code).exclude(line_service_code=lineservice)
+					transfers[stationservice][transferstation] = StationService.objects.filter(station_code=transferstation.station_code).exclude(line_service_code="110243A").exclude(line_service_code="110016A").exclude(line_service_code=lineservice)
 					if transfers[stationservice][transferstation].first() is None:
 						del transfers[stationservice][transferstation]
 			stationserviceprev = stationservice.station_code.station_group_code
@@ -336,7 +346,7 @@ class LineServiceListbyCompanyView(generic.ListView):
 		companies = Company.objects.all()
 		linebycompany = {}
 		for company in companies:
-			linebycompany[company] = LineService.objects.filter(company_code=company).order_by('sort_by_company')
+			linebycompany[company] = LineService.objects.filter(company_code=company).exclude(line_service_code="110243A").exclude(line_service_code="110016A").order_by('sort_by_company')
 			if linebycompany[company].first() is None:
 				del linebycompany[company]
 		context = {
@@ -352,7 +362,7 @@ class StationSearchView(generic.ListView):
 		q_word = self.request.GET.get('q')
 
 		if q_word:
-			stations = StationService.objects.filter(station_name__icontains=q_word).order_by('line_service_code').exclude(station_code__e_status_old=2)
+			stations = StationService.objects.filter(station_name__icontains=q_word).exclude(line_service_code="110243A").exclude(line_service_code="110016A").filter(station_code__e_status_old=0).order_by('line_service_code')
 		count = stations.count()
 		context = {
 			'word': q_word,

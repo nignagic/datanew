@@ -53,11 +53,14 @@ ul, li {
 }
 
 .station-info {
-	padding: 8px 20px;
+	/*padding: 8px 20px;*/
+	padding: 8px 16px 8px 8px;
 	color: #fff;
 	display: flex;
 	justify-content: space-between;
 	position: relative;
+	border-left: 16px solid;
+	background-color: #06262b;
 }
 
 .station-name {
@@ -67,17 +70,9 @@ ul, li {
 	text-align: right;
 }
 
-.line-li:nth-child(even) .station-info {
-	background-color: #06262b;
-}
-
-.line-li:nth-child(odd) .station-info {
-	background-color: #001618;
-}
-
 .station-info:after {
 	display: block;
-	content: '';
+	/*content: '';*/
 	position: absolute;
 	top: 16px;
 	left: 4px;

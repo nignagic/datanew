@@ -11,7 +11,7 @@
 	<ul class="line-ul">
 		{% for stationservice, group_stationservices in transfers.items %}
 		<li class="line-li">
-			<div class="station-info">
+			<div class="station-info" style="border-color: {{ stationservice.get_color }};">
 				<div class="station-name">{{ stationservice }}</div>
 				<div class="station-numbering">{{ stationservice.get_numbering }}</div>
 			</div>

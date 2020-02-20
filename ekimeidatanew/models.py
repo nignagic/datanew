@@ -16,6 +16,9 @@ class Company(models.Model):
 	company_name_short = models.CharField('事業者名（愛称）', max_length=200, null=True, blank=True)
 	company_name_short_2 = models.CharField('事業者名（愛称2）', max_length=200, null=True, blank=True)
 	company_name_kana = models.CharField('事業者名読み（かな）', max_length=200, null=True, blank=True)
+	company_color = models.CharField('会社色', max_length=100, null=True, blank=True)
+	area_code = models.IntegerField('地域', max_length=100, null=True, blank=True)
+	sort_by_area = models.CharField('地域ごとの並び順', max_length=100, null=True, blank=True)
 	def __str__(self):
 		return self.company_name
 
@@ -81,6 +84,7 @@ class LineService(models.Model):
 	sort_by_company = models.IntegerField('事業者ごとの並び順', default=0)
 	is_formal = models.CharField('正式区間', max_length=200, null=True, blank=True)
 	is_service = models.CharField('運行系統', max_length=200, null=True, blank=True)
+	line_color = models.CharField('路線カラー', max_length=100, null=True, blank=True)
 	def __str__(self):
 		name = ""
 		if self.is_company_name:
@@ -108,6 +112,7 @@ class StationService(models.Model):
 	numbering_middle = models.CharField('ナンバリングハイフン', max_length=200, null=True, blank=True)
 	numbering_number = models.CharField('駅番号', max_length=200, null=True, blank=True)
 	sort_by_line_service = models.IntegerField('路線(運行系統)ごとの並び順', null=True, blank=True, default=0)
+	station_color = models.CharField('駅カラー', max_length=100, null=True, blank=True)
 	def get_numbering(self):
 		numbering = self.numbering_head + self.numbering_symbol
 		if self.numbering_middle == "space":
@@ -117,8 +122,23 @@ class StationService(models.Model):
 		numbering += mid + self.numbering_number + " "
 		return numbering
 
+	def get_color(self):
+		s = self.station_color
+		l = self.line_service_code.line_color
+		c = self.line_service_code.company_code.company_color
+		if s != "":
+			return s
+		elif l != "":
+			return l
+		elif c != "":
+			return c
+		else:
+			return "#06262b"
+
 	def __str__(self):
 		name = self.station_name
-		if self.station_code.e_status_old == 2:
+		if self.station_code.e_status_old == 1:
+			name += "[未]"
+		elif self.station_code.e_status_old == 2:
 			name += "[廃]"
 		return name
