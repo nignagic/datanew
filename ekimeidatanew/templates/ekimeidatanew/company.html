@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{% static 'ekimeidatanew/company.css' %}">
 
 <div class="main-content">
+	<a href="{% url 'ekimeidatanew:notice' %}">はじめにご覧ください</a>
 	<p>駅名検索</p>
 	<form action="{% url 'ekimeidatanew:stationsearchview' %}" method="get">
 		<input type="text" name="q" value="{{ word }}">

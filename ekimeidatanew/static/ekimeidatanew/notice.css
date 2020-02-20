@@ -32,37 +32,44 @@ a. button {
 	font-weight: inherit;
 	cursor: pointer;
 }
-
+/*
 h1, h2, h3, h4, h5, h6 {
 	font-size: 100%;
 	font-weight: inherit;
 	line-height: inherit;
+}*/
+
+ul {
+	list-style: none;
+	margin: 0 0 32px 0;
+	padding: 0 0 0 16px;
 }
 
-ul, li {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+li {
 }
 
 .main-content {
 	padding: 32px;
 }
 
-h2 {
-	margin: 16px 0;
+p {
+	margin: 16px 0 32px 0;
 }
 
-table {
-	margin-left: 0px;
-	padding: 4px;
+h1, h2, h3 {
+	margin-bottom: 16px;
+}
+
+.back {
+	padding: 16px;
 	background-color: #f3f7f7;
+	margin-bottom: 32px;
 }
 
-td {
-	padding: 4px 8px;
+.lists {
+	padding: 0 0 0 16px;
 }
 
-small {
-	font-weight: normal;
+h3 {
+	border-bottom: 2px solid #06262b;
 }

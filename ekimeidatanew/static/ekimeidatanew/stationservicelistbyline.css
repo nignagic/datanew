@@ -1,5 +1,5 @@
 body {
-	font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', 'YakuHanJPs', 'Neutral 2', ryo-gothic-plusn, sans-serif;
+	font-family: "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック体", YuGothic, "Noto Sans Japanese", Meiryo, メイリオ, "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", sans-serif;
 	margin: 0;
 	padding: 0;
 	color: #000;
@@ -92,5 +92,5 @@ ul, li {
 .station-ul {
 	margin-left: 0px;
 	background-color: #f3f7f7;
-	padding: 8px 32px;
+	padding: 8px 8px 8px 30px;
 }

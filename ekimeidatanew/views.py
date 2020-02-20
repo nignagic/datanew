@@ -326,7 +326,7 @@ class StationServiceListbyLineView(generic.ListView):
 				transfers[stationservice] = {}
 				transferstations = Station.objects.filter(station_group_code=stationservice.station_code.station_group_code)
 				for transferstation in transferstations:
-					transfers[stationservice][transferstation] = StationService.objects.filter(station_code=transferstation.station_code).exclude(line_service_code="110243A").exclude(line_service_code="110016A").exclude(line_service_code=lineservice)
+					transfers[stationservice][transferstation] = StationService.objects.filter(station_code=transferstation.station_code).exclude(line_service_code="110243A").exclude(line_service_code=lineservice)
 					if transfers[stationservice][transferstation].first() is None:
 						del transfers[stationservice][transferstation]
 			stationserviceprev = stationservice.station_code.station_group_code
@@ -346,7 +346,7 @@ class LineServiceListbyCompanyView(generic.ListView):
 		companies = Company.objects.all()
 		linebycompany = {}
 		for company in companies:
-			linebycompany[company] = LineService.objects.filter(company_code=company).exclude(line_service_code="110243A").exclude(line_service_code="110016A").order_by('sort_by_company')
+			linebycompany[company] = LineService.objects.filter(company_code=company).exclude(line_service_code="110243A").order_by('sort_by_company')
 			if linebycompany[company].first() is None:
 				del linebycompany[company]
 		context = {
@@ -370,3 +370,6 @@ class StationSearchView(generic.ListView):
 			'count': count
 		}
 		return context
+
+class NoticeView(generic.TemplateView):
+	template_name = 'ekimeidatanew/notice.html'

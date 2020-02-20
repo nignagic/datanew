@@ -26,4 +26,5 @@ urlpatterns = [
 	path('companydelete/', views.CompanyDelete, name='CompanyDelete'),
 	path('stationservicedelete/', views.StationServiceDelete, name='StationServiceDelete'),
 	path('lineservicedelete/', views.LineServiceDelete, name='LineServiceDelete'),
+	path('notice/', views.NoticeView.as_view(), name='Notice'),
 ]
