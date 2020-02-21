@@ -13,44 +13,44 @@ def uploadStation(request):
 		i = 0
 		for line in csv_file:
 			if i != 0:
-				station_code = line[0]
-				station_group_code = line[1]
-				station_name = line[2]
-				station_name_kana = line[3]
-				station_name_en = line[4]
-				railway_type = line[5]
-				line_name = line[6]
-				line_code = Line.objects.get(line_code=line[7])
-				if line[8] != '':
-					sort_by_line = line[8]
+				station_code = line[2]
+				station_group_code = line[3]
+				station_name = line[6]
+				station_name_kana = line[7]
+				station_name_en = line[8]
+				railway_type = line[9]
+				line_name = line[10]
+				line_code = Line.objects.get(line_code=line[11])
+				if line[12] != '':
+					sort_by_line = line[12]
 				else:
 					sort_by_line = None;
-				if line[9] != '':
-					pref_cd_old = line[9]
+				if line[14] != '':
+					pref_cd_old = line[14]
 				else:
 					pref_cd_old = None;
-				post_old = line[10]
-				add_old = line[11]
-				lon_old = line[12]
-				lat_old = line[13]
-				if line[14] != '':
-					open_ymd_old = line[14]
+				post_old = line[15]
+				add_old = line[16]
+				lon_old = line[17]
+				lat_old = line[18]
+				if line[19] != '':
+					open_ymd_old = line[19]
 				else:
 					open_ymd_old = None;
-				if line[15] != '':
-					close_ymd_old = line[15]
+				if line[20] != '':
+					close_ymd_old = line[20]
 				else:
 					close_ymd_old = None;
-				if line[16] != '':
-					e_status_old = line[16]
+				if line[21] != '':
+					e_status_old = line[21]
 				else:
 					e_status_old = None;
-				if line[17] != '':
-					e_sort_old = line[17]
+				if line[22] != '':
+					e_sort_old = line[22]
 				else:
 					e_sort_old = None;
-				if line[18] != '':
-					sort = line[18]
+				if line[23] != '':
+					sort = line[23]
 				else:
 					sort = None;
 
@@ -174,17 +174,17 @@ def uploadStationService(request):
 		i = 0
 		for line in csv_file:
 			if i != 0:
-				station_service_code = line[0]
-				station_code = Station.objects.get(station_code=line[1])
-				station_name = line[2]
-				line_service_name = line[3]
-				line_service_code = LineService.objects.get(line_service_code=line[4])
-				numbering_head = line[5]
-				numbering_symbol = line[6]
-				numbering_middle = line[7]
-				numbering_number = line[8]
-				sort_by_line_service = line[9]
-				station_color = line[10]
+				station_service_code = line[3]
+				station_code = Station.objects.get(station_code=line[4])
+				station_name = line[5]
+				line_service_name = line[10]
+				line_service_code = LineService.objects.get(line_service_code=line[11])
+				numbering_head = line[12]
+				numbering_symbol = line[13]
+				numbering_middle = line[14]
+				numbering_number = line[15]
+				sort_by_line_service = line[16]
+				station_color = line[17]
 
 				stationservice = StationService(
 					station_service_code=station_service_code,
@@ -217,19 +217,19 @@ def uploadLineService(request):
 		i = 0
 		for line in csv_file:
 			if i != 0:
-				line_service_code = line[0]
-				line_service_name_formal = line[1]
-				line_service_name_formal_sub = line[2]
+				line_service_code = line[4]
+				line_service_name_formal = line[5]
+				line_service_name_formal_sub = line[6]
 
-				company_name_simple = line[4]
-				is_company_name = line[5]
-				line_service_name = line[6]
-				line_service_name_sub = line[7]
-				company_code = Company.objects.get(company_code=line[8])
-				sort_by_company = line[9]
-				is_formal = line[10]
-				is_service = line[11]
-				line_color = line[12]
+				company_name_simple = line[7]
+				is_company_name = line[8]
+				line_service_name = line[9]
+				line_service_name_sub = line[10]
+				company_code = Company.objects.get(company_code=line[14])
+				sort_by_company = line[15]
+				line_color = line[16]
+				is_formal = line[17]
+				is_service = line[18]
 				lineservice = LineService(
 					line_service_code=line_service_code,
 					line_service_name_formal=line_service_name_formal,
